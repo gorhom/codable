@@ -8,9 +8,28 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/Gorhom/ts-codable",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gorhom/ts-codable.git"
+  },
+  "keywords": [
+    "ts-codable",
+    "tscodable",
+    "codable",
+    "typescript",
+    "javascript",
+    "json",
+    "parsing",
+    "encodable",
+    "decodable",
+    "encoding"
+  ],
   "author": "Gorhom",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gorhom/ts-codable/issues"
+  },
+  "homepage": "https://github.com/Gorhom/ts-codable",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",

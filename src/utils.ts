@@ -9,13 +9,13 @@ import {
 } from './internal';
 
 export interface ICodingProperty {
-  type: IType | INewable<Codable>;
+  type: IType | ICodable;
   key?: string;
 }
 
-export type ICodingPropertyType = ICodingProperty | IType | INewable<Codable>;
+export type ICodingPropertyType = ICodingProperty | IType | ICodable;
 
-export type ISubType = IType | Codable;
+export type ISubType = IType | ICodable;
 
 export interface IType {
   name: keyof typeof types;
@@ -37,7 +37,9 @@ export interface IDictionary<T> {
   [index: string]: T;
 }
 
-export const isCodable = (
-  type: IType | INewable<Codable>
-): type is { new (...args: any[]): Codable } =>
+export type ICodable = INewable<Codable> & {
+  CodingProperties: IDictionary<ICodingPropertyType>;
+};
+
+export const isCodable = (type: ISubType): type is ICodable =>
   get(type, '__proto__.name', '') === Codable.name;

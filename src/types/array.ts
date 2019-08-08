@@ -1,6 +1,6 @@
-import { IType, Codable } from '../internal';
+import { IType, ISubType } from '../internal';
 
-export const array = (subtype: IType | Codable): IType => ({
+export const array = (subtype: ISubType): IType => ({
   name: 'array',
   subtype,
 });

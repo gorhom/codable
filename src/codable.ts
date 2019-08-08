@@ -5,9 +5,9 @@ import {
   IModel,
   ICodingPropertyType,
   IDictionary,
+  ICodable,
   isCodable,
 } from './internal';
-import { INewable } from 'utils';
 
 export class Codable {
   static CodingProperties: IDictionary<ICodingPropertyType>;
@@ -29,11 +29,7 @@ export class Codable {
   ) => {
     const jsonKey = get(codingProperty, 'key', key);
     const value = get(payload, jsonKey, undefined);
-    const type: IType | INewable<Codable> = get(
-      codingProperty,
-      'type',
-      codingProperty
-    );
+    const type: IType | ICodable = get(codingProperty, 'type', codingProperty);
 
     if (isCodable(type)) {
       const object = Object.create(type.prototype);

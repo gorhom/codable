@@ -94,4 +94,60 @@ describe('Decode', () => {
     const post = new Post(fixturePayload);
     expect(post.tags).toBe(fixturePayload.tags);
   });
+
+  it('decode property with array of Codable type', () => {
+    class User extends Codable {
+      private _id!: number;
+      private _username!: string;
+
+      get id() {
+        return this._id;
+      }
+
+      get username() {
+        return this._username;
+      }
+    }
+
+    User.CodingProperties = {
+      _id: {
+        type: types.number,
+        key: 'id',
+      },
+      _username: {
+        type: types.string,
+        key: 'username',
+      },
+    };
+
+    class Comment extends Codable {
+      id!: number;
+      body!: string;
+      user!: User;
+    }
+
+    Comment.CodingProperties = {
+      id: types.number,
+      body: types.string,
+      user: User,
+    };
+
+    class Post extends Codable {
+      comments!: Comment[];
+    }
+
+    Post.CodingProperties = {
+      comments: types.array(Comment),
+    };
+
+    const post = new Post(fixturePayload);
+
+    expect(post.comments.length).toBe(fixturePayload.comments.length);
+    expect(post.comments[0].id).toBe(fixturePayload.comments[0].id);
+
+    expect(post.comments[0].user.id).toBe(fixturePayload.comments[0].user.id);
+    expect(post.comments[0].user.username).toBe(
+      fixturePayload.comments[0].user.username
+    );
+  });
 });
