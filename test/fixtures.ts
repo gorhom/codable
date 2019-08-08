@@ -1,7 +1,8 @@
 export const fixturePayload = {
   id: 1,
   title: 'voluptate et itaque vero tempora molestiae',
-  body: 'eveniet quo quis\nlaborum totam consequatur non dolor',
+  active: true,
+  tags: ['voluptas', 'et', 'natus'],
   user: {
     id: 1000,
     username: 'Gorhom',
