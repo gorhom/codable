@@ -1,12 +1,6 @@
 import has from 'lodash/has';
 import get from 'lodash/get';
-import {
-  IType,
-  ICodingPropertyType,
-  Codable,
-  ISubType,
-  types,
-} from './internal';
+import { Codable, types } from '../internal';
 
 export interface ICodingProperty {
   type: IType | ICodable;
@@ -40,6 +34,3 @@ export interface IDictionary<T> {
 export type ICodable = INewable<Codable> & {
   CodingProperties: IDictionary<ICodingPropertyType>;
 };
-
-export const isCodable = (type: ISubType): type is ICodable =>
-  get(type, '__proto__.name', '') === Codable.name;

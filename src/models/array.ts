@@ -5,22 +5,21 @@ import {
   IModel,
   IType,
   ISubType,
-  IDictionary,
-  ICodingPropertyType,
-  INewable,
-  Codable,
-  ICodable,
+  decodePayload,
 } from '../internal';
-import get from 'lodash/get';
 
-export const array = (subType?: ISubType): IModel => ({
-  validate: (value: any) => {
-    if (isArray(value) === false) {
-      throw `Expected type to be 'array', but found '${typeof value}'`;
+export const array = (subType?: ISubType): IModel => {
+  const validate = (value: any) => {
+    if (value === undefined) {
+      throw `Missing value for a non optional property`;
     }
 
     if (subType === undefined) {
       throw 'Expected subtype to be set for `array`';
+    }
+
+    if (isArray(value) === false) {
+      throw `Expected type to be 'array', but found '${typeof value}'`;
     }
 
     if (isCodable(subType)) {
@@ -38,54 +37,23 @@ export const array = (subType?: ISubType): IModel => ({
     }
 
     return models[(subType as IType).name]().validate(value[0]);
-  },
-  decode: (value: object[]) => {
-    if (
-      subType !== undefined &&
-      isCodable(subType) &&
-      subType.CodingProperties
-    ) {
-      const result = value.map(item =>
-        decodePayload(item, subType.CodingProperties)
-      );
+  };
 
-      return result;
-    } else {
+  const decode = (value: any[]) => {
+    if (validate(value)) {
+      if (isCodable(subType!)) {
+        return value.map(item =>
+          decodePayload(item, subType!.CodingProperties)
+        );
+      }
       return value;
+    } else {
+      return undefined;
     }
-  },
-});
+  };
 
-const decodePayload = (
-  payload: object,
-  codingProperties: IDictionary<ICodingPropertyType>
-) => {
-  return Object.keys(codingProperties)
-    .map(key => ({
-      [key]: decode(key, codingProperties[key], payload),
-    }))
-    .reduce((properties, property) => ({ ...properties, ...property }), {});
-};
-
-const decode = (
-  key: string,
-  codingProperty: ICodingPropertyType,
-  payload?: object
-) => {
-  const jsonKey = get(codingProperty, 'key', key);
-  const value = get(payload, jsonKey, undefined);
-  const type: IType | ICodable = get(codingProperty, 'type', codingProperty);
-
-  if (isCodable(type)) {
-    const object = Object.create(type.prototype);
-    return object.constructor.call(object, value);
-  }
-
-  const model: IModel = models[type.name](type.subtype);
-
-  if (model.validate(value) === false) {
-    throw 'error';
-  }
-
-  return model.decode(value);
+  return {
+    validate,
+    decode,
+  };
 };

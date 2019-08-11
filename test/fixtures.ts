@@ -3,6 +3,7 @@ export const fixturePayload = {
   title: 'voluptate et itaque vero tempora molestiae',
   active: true,
   tags: ['voluptas', 'et', 'natus'],
+  categories: [1, 2, 3],
   user: {
     id: 1000,
     username: 'Gorhom',
