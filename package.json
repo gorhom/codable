@@ -1,6 +1,6 @@
 {
   "name": "ts-codable",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "main": "dist/index.js",
   "module": "dist/ts-codable.esm.js",
@@ -58,6 +58,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "lodash-es": "^4.17.15"
   }
 }
