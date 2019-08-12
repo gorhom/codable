@@ -1,6 +1,6 @@
 # TypeScript Codable
 
-> A Typescript implementaion of [Swift Codable](https://developer.apple.com/documentation/swift/codable)
+> A Typescript implementation of [Swift Codable](https://developer.apple.com/documentation/swift/codable)
 
 ![Alt text](docs/cover.png 'Title')
 
