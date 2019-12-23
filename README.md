@@ -1,6 +1,6 @@
 # TypeScript Codable
 
-> A Typescript implementation of [Swift Codable](https://developer.apple.com/documentation/swift/codable)
+another strict json parser inspired by [Swift Codable](https://developer.apple.com/documentation/swift/codable) ❤️
 
 ![Alt text](docs/cover.png 'Title')
 
@@ -15,7 +15,7 @@ Works almost same as [Swift Codable](https://developer.apple.com/documentation/s
 
 ## Supported Types
 
-Types design was inspired by [mobx-state-tree](https://github.com/mobxjs/mobx-state-tree#types-overview)
+Types design was inspired by [MobX State Tree](https://github.com/mobxjs/mobx-state-tree#types-overview) ❤️
 
 - Primitives
   - String
@@ -38,7 +38,7 @@ npm install ts-codable
 ## Usage
 
 ```ts
-class Post extends Codable {
+class Post extends BaseCodable {
   title!: string;
   isActive?: boolean;
 }
@@ -51,7 +51,7 @@ Post.CodingProperties = {
   },
 };
 
-class User extends Codable {
+class User extends BaseCodable {
   id!: number;
   username!: string;
   posts!: Post[];
@@ -63,7 +63,7 @@ User.CodingProperties = {
   posts: types.array(Post),
 };
 
-const user: User = new User({
+const user: User = decode(User, {
   id: 123,
   username: 'Gorhom',
   posts: [
