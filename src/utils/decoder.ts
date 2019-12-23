@@ -1,13 +1,39 @@
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import {
   models,
   IType,
   ICodingPropertyType,
   IDictionary,
-  ICodable,
   isCodable,
+  BaseCodable,
 } from '../internal';
-import { IModel } from './types';
+import { IModel, INewable, IBaseCodable, ICodable } from './types';
+
+export const decode = <T extends BaseCodable>(
+  type: INewable<T>,
+  json: any
+): T & IBaseCodable => decodeCodable(type, json, true);
+
+const decodeCodable = <T extends BaseCodable>(
+  type: INewable<T>,
+  json: any,
+  isRoot: boolean
+): T & IBaseCodable => {
+  if (isRoot === false && isEmpty(json) === true) {
+    throw `Missing value for a non optional property`;
+  }
+
+  let result = new type(json);
+
+  // @ts-ignore
+  if (json !== undefined && type.CodingProperties !== undefined) {
+    // @ts-ignore
+    Object.assign(result, decodePayload(json, type.CodingProperties));
+  }
+
+  return result;
+};
 
 export const decodePayload = (
   payload: object,
@@ -34,9 +60,9 @@ export const decodeProperty = (
 
 export const decodeValue = (type: IType | ICodable, value?: object) => {
   if (isCodable(type)) {
-    const object = Object.create(type.prototype);
-    return object.constructor.call(object, value);
+    return decodeCodable(type, value, false);
   }
+
   const model: IModel = models[type.name](type.subtype);
   return model.validate(value) ? model.decode(value) : undefined;
 };

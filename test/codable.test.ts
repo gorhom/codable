@@ -1,10 +1,10 @@
-import { Codable, types } from '../src/internal';
+import { types, BaseCodable, decode } from '../src/internal';
 import { fixturePayload } from './fixtures';
 
 describe('Decoder', () => {
   describe('Decode String', () => {
     it('decode property with string type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         title!: string;
       }
 
@@ -12,12 +12,12 @@ describe('Decoder', () => {
         title: types.string,
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.title).toBe(fixturePayload.title);
     });
 
     it('decode property with string type and custom key', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         postTitle!: string;
       }
 
@@ -28,12 +28,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.postTitle).toBe(fixturePayload.title);
     });
 
     it('decode property with optional string type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         title?: string;
       }
 
@@ -44,12 +44,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.title).toBe(undefined);
     });
 
     it('throws error when decode a missing value a non-optional property', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         title!: string;
       }
 
@@ -60,13 +60,13 @@ describe('Decoder', () => {
         },
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Missing value for a non optional property/
       );
     });
 
     it('throws error when decode a wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         id!: string;
       }
 
@@ -74,13 +74,13 @@ describe('Decoder', () => {
         id: types.string,
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'string'/
       );
     });
 
     it('throws error when decode an optional wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         id!: string;
       }
 
@@ -88,7 +88,7 @@ describe('Decoder', () => {
         id: types.optional(types.string),
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'string'/
       );
     });
@@ -96,7 +96,7 @@ describe('Decoder', () => {
 
   describe('Decode Number', () => {
     it('decode property with number type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         id!: string;
       }
 
@@ -104,12 +104,12 @@ describe('Decoder', () => {
         id: types.number,
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.id).toBe(fixturePayload.id);
     });
 
     it('decode property with number type and custom key', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         postId!: string;
       }
 
@@ -120,12 +120,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.postId).toBe(fixturePayload.id);
     });
 
     it('decode property with optional number type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         id?: number;
       }
 
@@ -136,12 +136,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.id).toBe(undefined);
     });
 
     it('throws error when decode a missing value a non-optional property', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         id!: string;
       }
 
@@ -152,13 +152,13 @@ describe('Decoder', () => {
         },
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Missing value for a non optional property/
       );
     });
 
     it('throws error when decode a wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         id!: string;
       }
 
@@ -166,13 +166,13 @@ describe('Decoder', () => {
         id: types.string,
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'string'/
       );
     });
 
     it('throws error when decode an optional wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         id!: string;
       }
 
@@ -180,7 +180,7 @@ describe('Decoder', () => {
         id: types.optional(types.string),
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'string'/
       );
     });
@@ -188,7 +188,7 @@ describe('Decoder', () => {
 
   describe('Decode Boolean', () => {
     it('decode property with boolean type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         active!: boolean;
       }
 
@@ -196,12 +196,12 @@ describe('Decoder', () => {
         active: types.boolean,
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.active).toBe(fixturePayload.active);
     });
 
     it('decode property with boolean type and custom key', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         isActive!: boolean;
       }
 
@@ -212,12 +212,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.isActive).toBe(fixturePayload.active);
     });
 
     it('decode property with optional boolean type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         active?: boolean;
       }
 
@@ -228,12 +228,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.active).toBe(undefined);
     });
 
     it('throws error when decode a missing value a non-optional property', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         active!: boolean;
       }
 
@@ -244,13 +244,13 @@ describe('Decoder', () => {
         },
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Missing value for a non optional property/
       );
     });
 
     it('throws error when decode a wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         active!: number;
       }
 
@@ -258,13 +258,13 @@ describe('Decoder', () => {
         active: types.number,
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'number'/
       );
     });
 
     it('throws error when decode an optional wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         active!: number;
       }
 
@@ -272,7 +272,7 @@ describe('Decoder', () => {
         active: types.optional(types.number),
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'number'/
       );
     });
@@ -280,7 +280,7 @@ describe('Decoder', () => {
 
   describe('Decode Codable', () => {
     it('decode property with Codable type', () => {
-      class User extends Codable {
+      class User extends BaseCodable {
         id!: number;
         username!: string;
       }
@@ -290,7 +290,7 @@ describe('Decoder', () => {
         username: types.string,
       };
 
-      class Post extends Codable {
+      class Post extends BaseCodable {
         title!: string;
         user!: User;
       }
@@ -300,12 +300,12 @@ describe('Decoder', () => {
         user: User,
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.user.id).toBe(fixturePayload.user.id);
     });
 
     it('decode property with Codable type and custom key', () => {
-      class User extends Codable {
+      class User extends BaseCodable {
         id!: number;
         username!: string;
       }
@@ -315,7 +315,7 @@ describe('Decoder', () => {
         username: types.string,
       };
 
-      class Post extends Codable {
+      class Post extends BaseCodable {
         title!: string;
         owner!: User;
       }
@@ -328,12 +328,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.owner.id).toBe(fixturePayload.user.id);
     });
 
     it('decode property with optional Codable type', () => {
-      class User extends Codable {
+      class User extends BaseCodable {
         id!: number;
         username!: string;
       }
@@ -343,7 +343,7 @@ describe('Decoder', () => {
         username: types.string,
       };
 
-      class Post extends Codable {
+      class Post extends BaseCodable {
         title!: string;
         user?: User;
       }
@@ -356,12 +356,12 @@ describe('Decoder', () => {
         },
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.user).toBe(undefined);
     });
 
     it('throws error when decode a missing value a non-optional property', () => {
-      class User extends Codable {
+      class User extends BaseCodable {
         id!: number;
         username!: string;
       }
@@ -371,7 +371,7 @@ describe('Decoder', () => {
         username: types.string,
       };
 
-      class Post extends Codable {
+      class Post extends BaseCodable {
         user!: User;
       }
 
@@ -382,13 +382,13 @@ describe('Decoder', () => {
         },
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Missing value for a non optional property/
       );
     });
 
     it('throws error when decode a wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         user!: string;
       }
 
@@ -396,13 +396,13 @@ describe('Decoder', () => {
         user: types.string,
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'string'/
       );
     });
 
     it('throws error when decode an optional wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         user?: string;
       }
 
@@ -410,7 +410,7 @@ describe('Decoder', () => {
         user: types.optional(types.string),
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'string'/
       );
     });
@@ -418,7 +418,7 @@ describe('Decoder', () => {
 
   describe('Decode Array', () => {
     it('decode property with array of string type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         tags!: string[];
       }
 
@@ -426,12 +426,12 @@ describe('Decoder', () => {
         tags: types.array(types.string),
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.tags).toBe(fixturePayload.tags);
     });
 
     it('decode property with array of number type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         categories!: number[];
       }
 
@@ -439,12 +439,12 @@ describe('Decoder', () => {
         categories: types.array(types.number),
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
       expect(post.categories).toBe(fixturePayload.categories);
     });
 
     it('decode property with array of Codable type', () => {
-      class User extends Codable {
+      class User extends BaseCodable {
         private _id!: number;
         private _username!: string;
 
@@ -468,7 +468,7 @@ describe('Decoder', () => {
         },
       };
 
-      class Comment extends Codable {
+      class Comment extends BaseCodable {
         id!: number;
         body!: string;
         user!: User;
@@ -480,7 +480,7 @@ describe('Decoder', () => {
         user: User,
       };
 
-      class Post extends Codable {
+      class Post extends BaseCodable {
         comments!: Comment[];
       }
 
@@ -488,7 +488,7 @@ describe('Decoder', () => {
         comments: types.array(Comment),
       };
 
-      const post = new Post(fixturePayload);
+      const post = decode(Post, fixturePayload);
 
       expect(post.comments.length).toBe(fixturePayload.comments.length);
       expect(post.comments[0].id).toBe(fixturePayload.comments[0].id);
@@ -500,7 +500,7 @@ describe('Decoder', () => {
     });
 
     it('throws error when decode a missing value a non-optional property', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         tags!: string[];
       }
 
@@ -511,13 +511,13 @@ describe('Decoder', () => {
         },
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Missing value for a non optional property/
       );
     });
 
     it('throws error when decode a wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         tags!: number[];
       }
 
@@ -525,13 +525,13 @@ describe('Decoder', () => {
         tags: types.number,
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'number'/
       );
     });
 
     it('throws error when decode an optional wrong type', () => {
-      class Post extends Codable {
+      class Post extends BaseCodable {
         tags!: number[];
       }
 
@@ -539,7 +539,7 @@ describe('Decoder', () => {
         tags: types.optional(types.number),
       };
 
-      expect(() => new Post(fixturePayload)).toThrowError(
+      expect(() => decode(Post, fixturePayload)).toThrowError(
         /Expected type to be 'number'/
       );
     });
