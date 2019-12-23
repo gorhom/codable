@@ -15,5 +15,5 @@ export { optional as optionalModel } from './models/optional';
 export * from './models';
 
 export * from './utils/types';
-export * from './utils/index';
+export * from './utils/typecheck';
 export * from './utils/decoder';
