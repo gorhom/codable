@@ -36,12 +36,6 @@
     "test": "tsdx test"
   },
   "peerDependencies": {},
-  "prettier": {
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
   "devDependencies": {
     "@types/jest": "^24.0.24",
     "@types/lodash": "^4.14.149",
