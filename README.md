@@ -1,4 +1,4 @@
-# TypeScript Codable
+# TypeScript Codable ![npm](https://img.shields.io/npm/v/ts-codable) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/ts-codable)
 
 another strict json parser inspired by [Swift Codable](https://developer.apple.com/documentation/swift/codable) ❤️
 
