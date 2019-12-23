@@ -36,11 +36,6 @@
     "test": "tsdx test"
   },
   "peerDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "prettier": {
     "printWidth": 80,
     "semi": true,
