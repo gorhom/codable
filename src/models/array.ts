@@ -42,9 +42,7 @@ export const array = (subType?: ISubType): IModel => {
   const decode = (value: any[]) => {
     if (validate(value)) {
       if (isCodable(subType!)) {
-        return value.map(item =>
-          decodePayload(item, subType!.CodingProperties)
-        );
+        return value.map(item => decodePayload(item, subType.CodingProperties));
       }
       return value;
     } else {

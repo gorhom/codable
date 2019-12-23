@@ -1,1 +1,1 @@
-export { types, Codable } from './internal';
+export { types, BaseCodable, decode } from './internal';

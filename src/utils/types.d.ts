@@ -1,6 +1,6 @@
 import has from 'lodash/has';
 import get from 'lodash/get';
-import { Codable, types } from '../internal';
+import { types, BaseCodable } from '../internal';
 
 export interface ICodingProperty {
   type: IType | ICodable;
@@ -31,6 +31,12 @@ export interface IDictionary<T> {
   [index: string]: T;
 }
 
-export type ICodable = INewable<Codable> & {
+export interface IBaseCodable {
+  toJSON: () => string;
+}
+
+interface IBaseCodableStatic {
   CodingProperties: IDictionary<ICodingPropertyType>;
-};
+}
+
+export type ICodable = INewable<BaseCodable> & IBaseCodableStatic;
