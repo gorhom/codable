@@ -1,17 +1,18 @@
-import { IModel } from '../internal';
+import { IModel, errors } from '../internal';
 
 export const boolean = (): IModel => {
-  const validate = (value: any) => {
+  const $type = 'boolean';
+  const validate = (key: string, value: any) => {
     if (value === undefined) {
-      throw `Missing value for a non optional property`;
+      throw errors.missingValue(key, $type);
     }
 
     if (typeof value !== 'boolean') {
-      throw `Expected type to be 'boolean', but found '${typeof value}'`;
+      throw errors.wrongType(key, $type, typeof value);
     }
     return true;
   };
-  const decode = (value: any) => value;
+  const decode = (key: string, value: any) => value;
 
   return {
     validate,

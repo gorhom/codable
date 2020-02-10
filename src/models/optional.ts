@@ -5,12 +5,14 @@ import {
   IType,
   ISubType,
   decodeValue,
+  errors,
 } from '../internal';
 
 export const optional = (subType?: ISubType): IModel => {
-  const validate = (value: any) => {
+  const $type = 'optional';
+  const validate = (key: string, value: any) => {
     if (subType === undefined) {
-      throw 'Expected subtype to be set for `optional`';
+      throw errors.missingSubType(key, $type);
     }
 
     if (value === undefined) {
@@ -28,17 +30,17 @@ export const optional = (subType?: ISubType): IModel => {
       (subType as IType).name !== undefined &&
       (subType as IType).name === 'optional'
     ) {
-      throw 'Subtype of `optional` is not supported';
+      throw errors.subTypeNotSupported(key, $type, (subType as IType).name);
     }
 
-    return models[(subType as IType).name]().validate(value);
+    return models[(subType as IType).name]().validate(key, value);
   };
 
-  const decode = (value: object) =>
+  const decode = (key: string, value: object) =>
     value === undefined
       ? undefined
-      : validate(value)
-      ? decodeValue(subType!, value)
+      : validate(key, value)
+      ? decodeValue(key, subType!, value)
       : undefined;
 
   return {

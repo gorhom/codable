@@ -1,4 +1,4 @@
-# TypeScript Codable ![npm](https://img.shields.io/npm/v/ts-codable) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/ts-codable)
+# TypeScript Codable [![npm](https://img.shields.io/npm/v/ts-codable)](https://www.npmjs.com/package/ts-codable) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/ts-codable)](https://www.npmjs.com/package/ts-codable)
 
 another strict json parser inspired by [Swift Codable](https://developer.apple.com/documentation/swift/codable) ❤️
 
@@ -38,6 +38,8 @@ npm install ts-codable
 ## Usage
 
 ```ts
+import { BaseCodable, types, decode } from 'ts-codable';
+
 class Post extends BaseCodable {
   title!: string;
   isActive?: boolean;
@@ -63,7 +65,7 @@ User.CodingProperties = {
   posts: types.array(Post),
 };
 
-const user: User = decode(User, {
+const jsonPayload = {
   id: 123,
   username: 'Gorhom',
   posts: [
@@ -76,7 +78,9 @@ const user: User = decode(User, {
       active: false,
     },
   ],
-});
+};
+
+const user: User = decode(User, jsonPayload);
 ```
 
 ## TODO
@@ -88,9 +92,9 @@ const user: User = decode(User, {
 
 ## Built With
 
-- [TSdx](https://github.com/palmerhq/tsdx) - Zero-config TypeScript package development.
+- [TSdx](https://github.com/jaredpalmer/tsdx) - Zero-config TypeScript package development.
 - [TypeScript](https://github.com/Microsoft/TypeScript) - Strict syntactical superset of JavaScript.
 
 ## Author
 
-- [Mo Gorhom](https://twitter.com/Gorhom)
+- [Mo Gorhom](https://twitter.com/gorhom)

@@ -55,14 +55,18 @@ export const decodeProperty = (
   const value = get(payload, jsonKey, undefined);
   const type: IType | ICodable = get(codingProperty, 'type', codingProperty);
 
-  return decodeValue(type, value);
+  return decodeValue(jsonKey, type, value);
 };
 
-export const decodeValue = (type: IType | ICodable, value?: object) => {
+export const decodeValue = (
+  key: string,
+  type: IType | ICodable,
+  value?: object
+) => {
   if (isCodable(type)) {
     return decodeCodable(type, value, false);
   }
 
   const model: IModel = models[type.name](type.subtype);
-  return model.validate(value) ? model.decode(value) : undefined;
+  return model.validate(key, value) ? model.decode(key, value) : undefined;
 };

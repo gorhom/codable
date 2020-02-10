@@ -10,7 +10,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Gorhom/ts-codable.git"
+    "url": "https://github.com/gorhom/ts-codable.git"
   },
   "keywords": [
     "ts-codable",
@@ -27,9 +27,9 @@
   "author": "Mo Gorhom",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Gorhom/ts-codable/issues"
+    "url": "https://github.com/gorhom/ts-codable/issues"
   },
-  "homepage": "https://github.com/Gorhom/ts-codable",
+  "homepage": "https://github.com/gorhom/ts-codable",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
@@ -38,19 +38,19 @@
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@release-it/conventional-changelog": "^1.1.0",
-    "@types/jest": "^24.0.24",
+    "@types/jest": "^25.1.2",
     "@types/lodash": "^4.14.149",
     "auto-changelog": "^1.16.2",
-    "husky": "^3.1.0",
+    "husky": "^4.2.1",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
     "release-it": "^12.4.3",
-    "tsdx": "^0.12.0",
+    "tsdx": "^0.12.3",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "dependencies": {
     "lodash": "^4.17.15",
