@@ -75,7 +75,7 @@ describe('Decoder', () => {
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'string'/
+        /Value found with a wrong type\. key: 'id', expected type: 'string', found type: 'number'/
       );
     });
 
@@ -89,7 +89,7 @@ describe('Decoder', () => {
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'string'/
+        /Value found with a wrong type. key: 'id', expected type: 'string', found type: 'number'/
       );
     });
   });
@@ -159,29 +159,29 @@ describe('Decoder', () => {
 
     it('throws error when decode a wrong type', () => {
       class Post extends BaseCodable {
-        id!: string;
+        title!: number;
       }
 
       Post.CodingProperties = {
-        id: types.string,
+        title: types.number,
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'string'/
+        /Value found with a wrong type. key: 'title', expected type: 'number', found type: 'string'/
       );
     });
 
     it('throws error when decode an optional wrong type', () => {
       class Post extends BaseCodable {
-        id!: string;
+        title!: number;
       }
 
       Post.CodingProperties = {
-        id: types.optional(types.string),
+        title: types.optional(types.number),
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'string'/
+        /Value found with a wrong type. key: 'title', expected type: 'number', found type: 'string'/
       );
     });
   });
@@ -251,29 +251,29 @@ describe('Decoder', () => {
 
     it('throws error when decode a wrong type', () => {
       class Post extends BaseCodable {
-        active!: number;
+        title!: boolean;
       }
 
       Post.CodingProperties = {
-        active: types.number,
+        title: types.boolean,
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'number'/
+        /Value found with a wrong type. key: 'title', expected type: 'boolean', found type: 'string'/
       );
     });
 
     it('throws error when decode an optional wrong type', () => {
       class Post extends BaseCodable {
-        active!: number;
+        title!: boolean;
       }
 
       Post.CodingProperties = {
-        active: types.optional(types.number),
+        title: types.optional(types.boolean),
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'number'/
+        /Value found with a wrong type. key: 'title', expected type: 'boolean', found type: 'string'/
       );
     });
   });
@@ -384,34 +384,6 @@ describe('Decoder', () => {
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
         /Missing value for a non optional property/
-      );
-    });
-
-    it('throws error when decode a wrong type', () => {
-      class Post extends BaseCodable {
-        user!: string;
-      }
-
-      Post.CodingProperties = {
-        user: types.string,
-      };
-
-      expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'string'/
-      );
-    });
-
-    it('throws error when decode an optional wrong type', () => {
-      class Post extends BaseCodable {
-        user?: string;
-      }
-
-      Post.CodingProperties = {
-        user: types.optional(types.string),
-      };
-
-      expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'string'/
       );
     });
   });
@@ -526,7 +498,7 @@ describe('Decoder', () => {
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'number'/
+        /Value found with a wrong type. key: 'tags', expected type: 'number', found type: 'object'/
       );
     });
 
@@ -540,7 +512,7 @@ describe('Decoder', () => {
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Expected type to be 'number'/
+        /Value found with a wrong type. key: 'tags', expected type: 'number', found type: 'object'/
       );
     });
   });

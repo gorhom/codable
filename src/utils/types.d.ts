@@ -17,8 +17,8 @@ export interface IType {
 }
 
 export interface IModel {
-  validate: (value: any) => boolean;
-  decode: (value: any) => any;
+  validate: (key: string, value: any) => boolean;
+  decode: (key: string, value: any) => any;
 }
 
 export type IModelDictionary = {
