@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-import isEmpty from 'lodash/isEmpty';
 import {
   models,
   IType,
@@ -7,6 +5,9 @@ import {
   IDictionary,
   isCodable,
   BaseCodable,
+  isEmpty,
+  get,
+  errors,
 } from '../internal';
 import { IModel, INewable, IBaseCodable, ICodable } from './types';
 
@@ -18,10 +19,11 @@ export const decode = <T extends BaseCodable>(
 const decodeCodable = <T extends BaseCodable>(
   type: INewable<T>,
   json: any,
-  isRoot: boolean
+  isRoot: boolean,
+  key?: string
 ): T & IBaseCodable => {
   if (isRoot === false && isEmpty(json) === true) {
-    throw `Missing value for a non optional property`;
+    throw errors.missingValue(key || '', typeof type);
   }
 
   let result = new type(json);
@@ -64,7 +66,7 @@ export const decodeValue = (
   value?: object
 ) => {
   if (isCodable(type)) {
-    return decodeCodable(type, value, false);
+    return decodeCodable(type, value, false, key);
   }
 
   const model: IModel = models[type.name](type);
