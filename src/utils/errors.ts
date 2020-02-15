@@ -9,4 +9,6 @@ export const errors = {
     `Subtype of a complex property is not supported. key: '${key}', type: ${type}, subtype: ${subType}`,
   missingParser: (key: string, type: string) =>
     `Missing date parser. key: '${key}', type: ${type}`,
+  failToParse: (key: string, value: string, errorMessage: string) =>
+    `Fail to parse date with custom parser. key: '${key}', value: '${value}', parser error: '${errorMessage}'`,
 };

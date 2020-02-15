@@ -610,6 +610,45 @@ describe('Decoder', () => {
       );
     });
 
+    it('throws error when not providing custom parser', () => {
+      class Post extends BaseCodable {
+        date!: Date;
+      }
+
+      Post.CodingProperties = {
+        date: {
+          // @ts-ignore
+          type: types.date(null),
+          key: 'createdAt',
+        },
+      };
+
+      expect(() => decode(Post, fixturePayload)).toThrowError(
+        /Missing date parser. key: 'createdAt', type: date/
+      );
+    });
+
+    it('throws error when custom parser fail to parse value', () => {
+      class Post extends BaseCodable {
+        date!: Date;
+      }
+
+      const parser = (value: string | number) => {
+        throw `Opss Error`;
+      };
+
+      Post.CodingProperties = {
+        date: {
+          type: types.date(parser),
+          key: 'title',
+        },
+      };
+
+      expect(() => decode(Post, fixturePayload)).toThrowError(
+        /Fail to parse date with custom parser. key: 'title', value: 'voluptate et itaque vero tempora molestiae', parser error: 'Opss Error'/
+      );
+    });
+
     it('throws error when decode an optional wrong type', () => {
       class Post extends BaseCodable {
         date!: Date;

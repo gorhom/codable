@@ -24,7 +24,7 @@ export const date = (type: IType): IModel => {
     try {
       return type.parser!(value);
     } catch (error) {
-      throw error;
+      throw errors.failToParse(key, value, error.message || error);
     }
   };
 
