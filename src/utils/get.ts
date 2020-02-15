@@ -8,6 +8,7 @@ export const get = (obj, path, defaultValue) => {
       .filter(Boolean)
       // @ts-ignore
       .reduce(
+        // @ts-ignore
         (res, key) => (res !== null && res !== undefined ? res[key] : res),
         obj
       );
