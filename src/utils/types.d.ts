@@ -1,5 +1,3 @@
-import has from 'lodash/has';
-import get from 'lodash/get';
 import { types, BaseCodable } from '../internal';
 
 export interface ICodingProperty {

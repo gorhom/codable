@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import {
   models,
   IType,
@@ -7,6 +6,7 @@ import {
   isCodable,
   BaseCodable,
   isEmpty,
+  get,
   errors,
 } from '../internal';
 import { IModel, INewable, IBaseCodable, ICodable } from './types';
