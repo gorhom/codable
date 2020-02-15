@@ -471,6 +471,19 @@ describe('Decoder', () => {
       );
     });
 
+    it('decode property with multidimensional array of number type', () => {
+      class Post extends BaseCodable {
+        coordinates!: number[][][];
+      }
+
+      Post.CodingProperties = {
+        coordinates: types.array(types.array(types.array(types.number))),
+      };
+
+      const post = decode(Post, fixturePayload);
+      expect(post.coordinates).toBe(fixturePayload.coordinates);
+    });
+
     it('throws error when decode a missing value a non-optional property', () => {
       class Post extends BaseCodable {
         tags!: string[];
@@ -494,11 +507,11 @@ describe('Decoder', () => {
       }
 
       Post.CodingProperties = {
-        tags: types.number,
+        tags: types.array(types.number),
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Value found with a wrong type. key: 'tags', expected type: 'number', found type: 'object'/
+        /Value found with a wrong type. key: 'tags', expected type: 'number', found type: 'string'/
       );
     });
 
@@ -508,11 +521,25 @@ describe('Decoder', () => {
       }
 
       Post.CodingProperties = {
-        tags: types.optional(types.number),
+        tags: types.array(types.optional(types.number)),
       };
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
-        /Value found with a wrong type. key: 'tags', expected type: 'number', found type: 'object'/
+        /Value found with a wrong type. key: 'tags', expected type: 'number', found type: 'string'/
+      );
+    });
+
+    it('throws error when decode a multidimensional array with wrong type', () => {
+      class Post extends BaseCodable {
+        coordinates!: string[][][];
+      }
+
+      Post.CodingProperties = {
+        coordinates: types.array(types.array(types.array(types.string))),
+      };
+
+      expect(() => decode(Post, fixturePayload)).toThrowError(
+        /Value found with a wrong type. key: 'coordinates', expected type: 'string', found type: 'number'/
       );
     });
   });

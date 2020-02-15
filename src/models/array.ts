@@ -28,17 +28,6 @@ export const array = (type: IType): IModel => {
       return true;
     }
 
-    if (
-      (type.subtype as IType).name !== undefined &&
-      (type.subtype as IType).name === type.name
-    ) {
-      throw errors.subTypeNotSupported(
-        key,
-        type.name,
-        (type.subtype as IType).name
-      );
-    }
-
     return models[(type.subtype as IType).name](type.subtype).validate(
       key,
       value[0]
