@@ -25,7 +25,7 @@ Types design was inspired by [MobX State Tree](https://github.com/mobxjs/mobx-st
   - Codable
   - Optional
   - Array
-  - [TODO] Date
+  - Date
 
 ## Installation
 
@@ -39,10 +39,12 @@ npm install ts-codable
 
 ```ts
 import { BaseCodable, types, decode } from 'ts-codable';
+import dayjs from 'dayjs';
 
 class Post extends BaseCodable {
   title!: string;
   isActive?: boolean;
+  date!: Date;
 }
 
 Post.CodingProperties = {
@@ -51,6 +53,7 @@ Post.CodingProperties = {
     type: types.optional(types.boolean),
     key: 'active',
   },
+  date: types.date(dayjs),
 };
 
 class User extends BaseCodable {
@@ -72,10 +75,12 @@ const jsonPayload = {
     {
       title: 'dummy post',
       active: true,
+      date: '2020-02-15T16:00:00.000Z',
     },
     {
       title: 'deleted post',
       active: false,
+      date: '2020-02-10T16:00:00.000Z',
     },
   ],
 };
@@ -87,7 +92,6 @@ const user: User = decode(User, jsonPayload);
 
 - [x] Add [Swift Decodable](https://developer.apple.com/documentation/swift/decodable) functionality.
 - [ ] Add [Swift Encodable](https://developer.apple.com/documentation/swift/encodable) functionality.
-- [ ] Add `Date` type support.
 - [ ] Write API docs.
 
 ## Built With
