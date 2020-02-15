@@ -3,23 +3,21 @@ import {
   isCodable,
   IModel,
   IType,
-  ISubType,
   decodeValue,
   errors,
 } from '../internal';
 
-export const optional = (subType?: ISubType): IModel => {
-  const $type = 'optional';
+export const optional = (type: IType): IModel => {
   const validate = (key: string, value: any) => {
-    if (subType === undefined) {
-      throw errors.missingSubType(key, $type);
+    if (type.subtype === undefined) {
+      throw errors.missingSubType(key, type.name);
     }
 
     if (value === undefined) {
       return true;
     }
 
-    if (isCodable(subType)) {
+    if (isCodable(type.subtype)) {
       /**
        * @DEV | while decoding `Codable` it will validate it self.
        */
@@ -27,20 +25,27 @@ export const optional = (subType?: ISubType): IModel => {
     }
 
     if (
-      (subType as IType).name !== undefined &&
-      (subType as IType).name === 'optional'
+      (type.subtype as IType).name !== undefined &&
+      (type.subtype as IType).name === type.name
     ) {
-      throw errors.subTypeNotSupported(key, $type, (subType as IType).name);
+      throw errors.subTypeNotSupported(
+        key,
+        type.name,
+        (type.subtype as IType).name
+      );
     }
 
-    return models[(subType as IType).name]().validate(key, value);
+    return models[(type.subtype as IType).name](type.subtype).validate(
+      key,
+      value
+    );
   };
 
   const decode = (key: string, value: object) =>
     value === undefined
       ? undefined
       : validate(key, value)
-      ? decodeValue(key, subType!, value)
+      ? decodeValue(key, type.subtype!, value)
       : undefined;
 
   return {

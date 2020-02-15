@@ -516,4 +516,117 @@ describe('Decoder', () => {
       );
     });
   });
+
+  describe('Decode Date', () => {
+    it('decode property with date type', () => {
+      class Post extends BaseCodable {
+        createdAt!: Date;
+      }
+
+      const mockedDate = new Date(fixturePayload.createdAt);
+      const parser = (value: string | number) => new Date(value);
+
+      Post.CodingProperties = {
+        createdAt: types.date(parser),
+      };
+
+      const post = decode(Post, fixturePayload);
+      expect(post.createdAt).toMatchObject(mockedDate);
+    });
+
+    it('decode property with date type and custom key', () => {
+      class Post extends BaseCodable {
+        date!: Date;
+      }
+
+      const mockedDate = new Date(fixturePayload.createdAt);
+      const parser = (value: string | number) => new Date(value);
+
+      Post.CodingProperties = {
+        date: {
+          type: types.date(parser),
+          key: 'createdAt',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      expect(post.date).toMatchObject(mockedDate);
+    });
+
+    it('decode property with optional date type', () => {
+      class Post extends BaseCodable {
+        date?: Date;
+      }
+
+      const parser = (value: string | number) => new Date(value);
+
+      Post.CodingProperties = {
+        date: {
+          type: types.optional(types.date(parser)),
+          key: 'non-exist-key',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      expect(post.date).toBe(undefined);
+    });
+
+    it('throws error when decode a missing value a non-optional property', () => {
+      class Post extends BaseCodable {
+        date!: Date;
+      }
+
+      const mockedDate = new Date(fixturePayload.createdAt);
+      const parser = (value: string | number) => new Date(value);
+
+      Post.CodingProperties = {
+        date: {
+          type: types.date(parser),
+          key: 'non-exist-key',
+        },
+      };
+
+      expect(() => decode(Post, fixturePayload)).toThrowError(
+        /Missing value for a non optional property/
+      );
+    });
+
+    it('throws error when decode a wrong type', () => {
+      class Post extends BaseCodable {
+        date!: Date;
+      }
+
+      const parser = (value: string | number) => new Date(value);
+
+      Post.CodingProperties = {
+        date: {
+          type: types.date(parser),
+          key: 'active',
+        },
+      };
+
+      expect(() => decode(Post, fixturePayload)).toThrowError(
+        /Value found with a wrong type\. key: 'active', expected type: 'string or number', found type: 'boolean'/
+      );
+    });
+
+    it('throws error when decode an optional wrong type', () => {
+      class Post extends BaseCodable {
+        date!: Date;
+      }
+
+      const parser = (value: string | number) => new Date(value);
+
+      Post.CodingProperties = {
+        date: {
+          type: types.optional(types.date(parser)),
+          key: 'active',
+        },
+      };
+
+      expect(() => decode(Post, fixturePayload)).toThrowError(
+        /Value found with a wrong type. key: 'active', expected type: 'string or number', found type: 'boolean'/
+      );
+    });
+  });
 });

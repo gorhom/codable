@@ -11,9 +11,12 @@ export type ICodingPropertyType = ICodingProperty | IType | ICodable;
 
 export type ISubType = IType | ICodable;
 
+export type IDateParser = (value: string | number) => Date;
+
 export interface IType {
   name: keyof typeof types;
   subtype?: ISubType;
+  parser?: IDateParser;
 }
 
 export interface IModel {
@@ -22,7 +25,7 @@ export interface IModel {
 }
 
 export type IModelDictionary = {
-  [key in keyof typeof types]: (subType?: ISubType) => IModel;
+  [key in keyof typeof types]: (type: IType) => IModel;
 };
 
 export type INewable<T> = new (...args: any[]) => T;
