@@ -4,27 +4,25 @@ import {
   isCodable,
   IModel,
   IType,
-  ISubType,
   decodePayload,
   errors,
 } from '../internal';
 
-export const array = (subType?: ISubType): IModel => {
-  const $type = 'array';
+export const array = (type: IType): IModel => {
   const validate = (key: string, value: any) => {
     if (value === undefined) {
-      throw errors.missingValue(key, $type);
+      throw errors.missingValue(key, type.name);
     }
 
-    if (subType === undefined) {
-      throw errors.missingSubType(key, $type);
+    if (type.subtype === undefined) {
+      throw errors.missingSubType(key, type.name);
     }
 
     if (isArray(value) === false) {
-      throw errors.wrongType(key, $type, typeof value);
+      throw errors.wrongType(key, type.name, typeof value);
     }
 
-    if (isCodable(subType)) {
+    if (isCodable(type.subtype)) {
       /**
        * @DEV | while decoding `Codable` it will validate it self.
        */
@@ -32,19 +30,27 @@ export const array = (subType?: ISubType): IModel => {
     }
 
     if (
-      (subType as IType).name !== undefined &&
-      (subType as IType).name === 'array'
+      (type.subtype as IType).name !== undefined &&
+      (type.subtype as IType).name === type.name
     ) {
-      throw errors.subTypeNotSupported(key, $type, (subType as IType).name);
+      throw errors.subTypeNotSupported(
+        key,
+        type.name,
+        (type.subtype as IType).name
+      );
     }
 
-    return models[(subType as IType).name]().validate(key, value[0]);
+    return models[(type.subtype as IType).name](type.subtype).validate(
+      key,
+      value[0]
+    );
   };
 
   const decode = (key: string, value: any[]) => {
     if (validate(key, value)) {
-      if (isCodable(subType!)) {
-        return value.map(item => decodePayload(item, subType.CodingProperties));
+      const { subtype } = type;
+      if (subtype !== undefined && isCodable(subtype)) {
+        return value.map(item => decodePayload(item, subtype.CodingProperties));
       }
       return value;
     } else {

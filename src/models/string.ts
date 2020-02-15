@@ -1,14 +1,13 @@
-import { IModel, errors } from '../internal';
+import { IModel, IType, errors } from '../internal';
 
-export const string = (): IModel => {
-  const $type = 'string';
+export const string = (type: IType): IModel => {
   const validate = (key: string, value: any) => {
     if (value === undefined) {
-      throw errors.missingValue(key, $type);
+      throw errors.missingValue(key, type.name);
     }
 
-    if (typeof value !== 'string') {
-      throw errors.wrongType(key, $type, typeof value);
+    if (typeof value !== type.name) {
+      throw errors.wrongType(key, type.name, typeof value);
     }
     return true;
   };

@@ -7,4 +7,8 @@ export const errors = {
     `Value found with a wrong type. key: '${key}', expected type: '${expectedType}', found type: '${foundType}'`,
   subTypeNotSupported: (key: string, type: string, subType: string) =>
     `Subtype of a complex property is not supported. key: '${key}', type: ${type}, subtype: ${subType}`,
+  missingParser: (key: string, type: string) =>
+    `Missing date parser. key: '${key}', type: ${type}`,
+  failToParse: (key: string, value: string, errorMessage: string) =>
+    `Fail to parse date with custom parser. key: '${key}', value: '${value}', parser error: '${errorMessage}'`,
 };

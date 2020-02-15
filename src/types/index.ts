@@ -1,4 +1,5 @@
 import {
+  dateType,
   stringType,
   numberType,
   booleanType,
@@ -7,6 +8,7 @@ import {
 } from '../internal';
 
 export const types = {
+  date: dateType,
   string: stringType,
   number: numberType,
   boolean: booleanType,

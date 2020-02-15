@@ -67,6 +67,6 @@ export const decodeValue = (
     return decodeCodable(type, value, false);
   }
 
-  const model: IModel = models[type.name](type.subtype);
+  const model: IModel = models[type.name](type);
   return model.validate(key, value) ? model.decode(key, value) : undefined;
 };

@@ -4,6 +4,8 @@ export const fixturePayload = {
   active: true,
   tags: ['voluptas', 'et', 'natus'],
   categories: [1, 2, 3],
+  createdAt: '2020-02-15T03:24:00',
+  updatedAt: 1581794160,
   user: {
     id: 1000,
     username: 'Gorhom',
