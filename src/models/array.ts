@@ -1,4 +1,3 @@
-import isArray from 'lodash/isArray';
 import {
   models,
   isCodable,
@@ -18,7 +17,7 @@ export const array = (type: IType): IModel => {
       throw errors.missingSubType(key, type.name);
     }
 
-    if (isArray(value) === false) {
+    if (Array.isArray(value) === false) {
       throw errors.wrongType(key, type.name, typeof value);
     }
 
