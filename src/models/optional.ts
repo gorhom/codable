@@ -44,7 +44,11 @@ export const optional = (type: IType): IModel => {
     value === undefined
       ? undefined
       : validate(key, value)
-      ? decodeValue(key, type.subtype!, value)
+      ? decodeValue({
+          key,
+          type: type.subtype!,
+          value,
+        })
       : undefined;
   const encode = (key: string, value: any) => value;
   return {

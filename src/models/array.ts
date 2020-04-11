@@ -38,7 +38,14 @@ export const array = (type: IType): IModel => {
     if (validate(key, value)) {
       const { subtype } = type;
       if (subtype !== undefined && isCodable(subtype)) {
-        return value.map(item => decodeCodable(subtype, item, false, key));
+        return value.map(item =>
+          decodeCodable({
+            type: subtype,
+            json: item,
+            isRoot: false,
+            key,
+          })
+        );
       }
       return value;
     } else {
