@@ -38,7 +38,7 @@ npm install @gorhom/codable
 ## Usage
 
 ```ts
-import { BaseCodable, types, decode } from '@gorhom/codable';
+import { BaseCodable, types, decode, encode } from '@gorhom/codable';
 import dayjs from 'dayjs';
 
 class Post extends BaseCodable {
@@ -86,12 +86,16 @@ const jsonPayload = {
 };
 
 const user: User = decode(User, jsonPayload);
+
+// now encode it back 🙈
+
+const userJson = encode(user)
 ```
 
 ## TODO
 
 - [x] Add [Swift Decodable](https://developer.apple.com/documentation/swift/decodable) functionality.
-- [ ] Add [Swift Encodable](https://developer.apple.com/documentation/swift/encodable) functionality.
+- [x] Add [Swift Encodable](https://developer.apple.com/documentation/swift/encodable) functionality.
 - [ ] Write API docs.
 
 ## Built With
