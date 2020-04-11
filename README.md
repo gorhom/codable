@@ -1,8 +1,8 @@
-# TypeScript Codable [![npm](https://img.shields.io/npm/v/ts-codable)](https://www.npmjs.com/package/ts-codable) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/ts-codable)](https://www.npmjs.com/package/ts-codable)
+# Codable [![npm](https://img.shields.io/npm/v/@gorhom/codable)](https://www.npmjs.com/package/@gorhom/codable) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@gorhom/codable)](https://www.npmjs.com/package/@gorhom/codable) [![npm](https://badgen.net/npm/dependents/@gorhom/codable)](https://www.npmjs.com/package/@gorhom/codable)
 
-another strict json parser inspired by [Swift Codable](https://developer.apple.com/documentation/swift/codable) ❤️
+A strict json parser inspired by [Swift Codable](https://developer.apple.com/documentation/swift/codable/) ❤️
 
-![Alt text](docs/cover.png 'Title')
+![Alt text](docs/cover.png 'Cover')
 
 ## Features
 
@@ -30,15 +30,15 @@ Types design was inspired by [MobX State Tree](https://github.com/mobxjs/mobx-st
 ## Installation
 
 ```bash
-yarn add ts-codable
+yarn add @gorhom/codable
 # or
-npm install ts-codable
+npm install @gorhom/codable
 ```
 
 ## Usage
 
 ```ts
-import { BaseCodable, types, decode } from 'ts-codable';
+import { BaseCodable, types, decode } from '@gorhom/codable';
 import dayjs from 'dayjs';
 
 class Post extends BaseCodable {
@@ -96,8 +96,8 @@ const user: User = decode(User, jsonPayload);
 
 ## Built With
 
-- [TSdx](https://github.com/jaredpalmer/tsdx) - Zero-config TypeScript package development.
-- [TypeScript](https://github.com/Microsoft/TypeScript) - Strict syntactical superset of JavaScript.
+- [TSdx](https://github.com/jaredpalmer/tsdx)
+- [TypeScript](https://github.com/Microsoft/TypeScript)
 
 ## Author
 

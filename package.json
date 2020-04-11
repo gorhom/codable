@@ -1,16 +1,17 @@
 {
-  "name": "ts-codable",
+  "name": "@gorhom/codable",
+  "description": "A strict json parser inspired by Swift Codable",
   "version": "0.4.2",
   "private": false,
   "main": "dist/index.js",
-  "module": "dist/ts-codable.esm.js",
+  "module": "dist/codable.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/gorhom/ts-codable.git"
+    "url": "https://github.com/gorhom/codable.git"
   },
   "keywords": [
     "ts-codable",
@@ -27,9 +28,9 @@
   "author": "Mo Gorhom",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gorhom/ts-codable/issues"
+    "url": "https://github.com/gorhom/codable/issues"
   },
-  "homepage": "https://github.com/gorhom/ts-codable",
+  "homepage": "https://github.com/gorhom/codable",
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
