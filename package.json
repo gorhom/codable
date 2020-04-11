@@ -41,16 +41,16 @@
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
-    "@release-it/conventional-changelog": "^1.1.0",
-    "@types/jest": "^25.1.2",
-    "auto-changelog": "^1.16.2",
-    "husky": "^4.2.1",
-    "prettier": "^1.19.1",
+    "@release-it/conventional-changelog": "^1.1.1",
+    "@types/jest": "^25.2.1",
+    "auto-changelog": "^2.0.0",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.4",
     "pretty-quick": "^2.0.1",
-    "release-it": "^12.4.3",
-    "tsdx": "^0.12.3",
-    "tslib": "^1.10.0",
-    "typescript": "^3.7.5"
+    "release-it": "^13.5.2",
+    "tsdx": "^0.13.1",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
   },
   "dependencies": {}
 }
