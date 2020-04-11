@@ -16,7 +16,7 @@ export const decode = <T extends BaseCodable>(
   json: any
 ): T & IBaseCodable => decodeCodable(type, json, true);
 
-const decodeCodable = <T extends BaseCodable>(
+export const decodeCodable = <T extends BaseCodable>(
   type: INewable<T>,
   json: any,
   isRoot: boolean,

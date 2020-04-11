@@ -603,7 +603,6 @@ describe('Decoder', () => {
         date!: Date;
       }
 
-      const mockedDate = new Date(fixturePayload.createdAt);
       const parser = (value: string | number) => new Date(value);
 
       Post.CodingProperties = {

@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "pretty-quick --staged",
+    "pre-commit": "tsdx lint",
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
   }
 }

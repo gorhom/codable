@@ -3,7 +3,7 @@ import {
   isCodable,
   IModel,
   IType,
-  decodePayload,
+  decodeCodable,
   errors,
 } from '../internal';
 
@@ -38,7 +38,7 @@ export const array = (type: IType): IModel => {
     if (validate(key, value)) {
       const { subtype } = type;
       if (subtype !== undefined && isCodable(subtype)) {
-        return value.map(item => decodePayload(item, subtype.CodingProperties));
+        return value.map(item => decodeCodable(subtype, item, false, key));
       }
       return value;
     } else {
