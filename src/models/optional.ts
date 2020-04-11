@@ -40,16 +40,16 @@ export const optional = (type: IType): IModel => {
       value
     );
   };
-
   const decode = (key: string, value: object) =>
     value === undefined
       ? undefined
       : validate(key, value)
       ? decodeValue(key, type.subtype!, value)
       : undefined;
-
+  const encode = (key: string, value: any) => value;
   return {
     validate,
     decode,
+    encode,
   };
 };

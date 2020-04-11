@@ -12,9 +12,10 @@ export const number = (type: IType): IModel => {
     return true;
   };
   const decode = (key: string, value: any) => value;
-
+  const encode = (key: string, value: any) => value;
   return {
     validate,
     decode,
+    encode,
   };
 };

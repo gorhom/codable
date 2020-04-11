@@ -1,4 +1,4 @@
-import { types, BaseCodable, decode } from '../src/internal';
+import { types, BaseCodable, decode, encode } from '../src/internal';
 import { fixturePayload } from './fixtures';
 
 describe('Decoder', () => {
@@ -691,6 +691,360 @@ describe('Decoder', () => {
 
       expect(() => decode(Post, fixturePayload)).toThrowError(
         /Value found with a wrong type. key: 'active', expected type: 'string or number', found type: 'boolean'/
+      );
+    });
+  });
+});
+
+describe('Encoder', () => {
+  it('throws error when try to encode a non-codable class', () => {
+    class Post {
+      tags!: string[];
+      constructor() {
+        this.tags = [];
+      }
+    }
+    const post = new Post();
+    // @ts-ignore
+    expect(() => encode(post)).toThrowError(/Invalid codable type\./);
+  });
+
+  it('throws error when try to encode a codable without setting "CodingProperties"', () => {
+    class Post extends BaseCodable {
+      tags!: string[];
+      constructor(payload: any) {
+        super(payload);
+        this.tags = [];
+      }
+    }
+    const post = new Post({});
+    // @ts-ignore
+    expect(() => encode(post)).toThrowError(
+      /Missing 'CodingProperties' static variable\./
+    );
+  });
+
+  describe('Encode String', () => {
+    it('encode property with string type', () => {
+      class Post extends BaseCodable {
+        title!: string;
+      }
+
+      Post.CodingProperties = {
+        title: types.string,
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.title).toBe(fixturePayload.title);
+    });
+
+    it('encode property with string type and custom key', () => {
+      class Post extends BaseCodable {
+        postTitle!: string;
+      }
+
+      Post.CodingProperties = {
+        postTitle: {
+          type: types.string,
+          key: 'title',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.title).toBe(fixturePayload.title);
+    });
+
+    it('encode property with optional string type', () => {
+      class Post extends BaseCodable {
+        title?: string;
+      }
+
+      Post.CodingProperties = {
+        title: {
+          type: types.optional(types.string),
+          key: 'non-exist-key',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost['non-exist-key']).toBe(undefined);
+    });
+  });
+
+  describe('Encode Number', () => {
+    it('encode property with number type', () => {
+      class Post extends BaseCodable {
+        id!: string;
+      }
+
+      Post.CodingProperties = {
+        id: types.number,
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.id).toBe(fixturePayload.id);
+    });
+
+    it('encode property with number type and custom key', () => {
+      class Post extends BaseCodable {
+        postId!: string;
+      }
+
+      Post.CodingProperties = {
+        postId: {
+          key: 'id',
+          type: types.number,
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.id).toBe(fixturePayload.id);
+    });
+
+    it('encode property with optional number type', () => {
+      class Post extends BaseCodable {
+        id?: number;
+      }
+
+      Post.CodingProperties = {
+        id: {
+          type: types.optional(types.number),
+          key: 'non-exist-key',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost['non-exist-key']).toBe(undefined);
+    });
+  });
+
+  describe('Encode Boolean', () => {
+    it('encode property with boolean type', () => {
+      class Post extends BaseCodable {
+        active!: boolean;
+      }
+
+      Post.CodingProperties = {
+        active: types.boolean,
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.active).toBe(fixturePayload.active);
+    });
+
+    it('encode property with boolean type and custom key', () => {
+      class Post extends BaseCodable {
+        isActive!: boolean;
+      }
+
+      Post.CodingProperties = {
+        isActive: {
+          type: types.boolean,
+          key: 'active',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.active).toBe(fixturePayload.active);
+    });
+
+    it('encode property with optional boolean type', () => {
+      class Post extends BaseCodable {
+        active?: boolean;
+      }
+
+      Post.CodingProperties = {
+        active: {
+          type: types.optional(types.boolean),
+          key: 'non-exist-key',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost['non-exist-key']).toBe(undefined);
+    });
+  });
+
+  describe('Encode Codable', () => {
+    it('encode property with Codable type', () => {
+      class User extends BaseCodable {
+        id!: number;
+        username!: string;
+      }
+
+      User.CodingProperties = {
+        id: types.number,
+        username: types.string,
+      };
+
+      class Post extends BaseCodable {
+        title!: string;
+        user!: User;
+      }
+
+      Post.CodingProperties = {
+        title: types.string,
+        user: User,
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.user['id']).toBe(fixturePayload.user.id);
+    });
+
+    it('encode property with Codable type and custom key', () => {
+      class User extends BaseCodable {
+        id!: number;
+        username!: string;
+      }
+
+      User.CodingProperties = {
+        id: types.number,
+        username: types.string,
+      };
+
+      class Post extends BaseCodable {
+        title!: string;
+        owner!: User;
+      }
+
+      Post.CodingProperties = {
+        title: types.string,
+        owner: {
+          key: 'user',
+          type: User,
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.user['id']).toBe(fixturePayload.user.id);
+    });
+
+    it('encode property with optional Codable type', () => {
+      class User extends BaseCodable {
+        id!: number;
+        username!: string;
+      }
+
+      User.CodingProperties = {
+        id: types.number,
+        username: types.string,
+      };
+
+      class Post extends BaseCodable {
+        title!: string;
+        user?: User;
+      }
+
+      Post.CodingProperties = {
+        title: types.string,
+        user: {
+          type: types.optional(User),
+          key: 'non-exist-key',
+        },
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost['non-exist-key']).toBe(undefined);
+    });
+  });
+
+  describe('Encode Array', () => {
+    it('encode property with array of string type', () => {
+      class Post extends BaseCodable {
+        tags!: string[];
+      }
+
+      Post.CodingProperties = {
+        tags: types.array(types.string),
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.tags[0]).toBe(fixturePayload.tags[0]);
+    });
+
+    it('encode property with array of number type', () => {
+      class Post extends BaseCodable {
+        categories!: number[];
+      }
+
+      Post.CodingProperties = {
+        categories: types.array(types.number),
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+      expect(encodedPost.categories[0]).toBe(fixturePayload.categories[0]);
+    });
+
+    it('encode property with array of Codable type', () => {
+      class User extends BaseCodable {
+        private _id!: number;
+        private _username!: string;
+
+        get id() {
+          return this._id;
+        }
+
+        get username() {
+          return this._username;
+        }
+      }
+
+      User.CodingProperties = {
+        _id: {
+          type: types.number,
+          key: 'id',
+        },
+        _username: {
+          type: types.string,
+          key: 'username',
+        },
+      };
+
+      class Comment extends BaseCodable {
+        id!: number;
+        body!: string;
+        user!: User;
+      }
+
+      Comment.CodingProperties = {
+        id: types.number,
+        body: types.string,
+        user: User,
+      };
+
+      class Post extends BaseCodable {
+        comments!: Comment[];
+      }
+
+      Post.CodingProperties = {
+        comments: types.array(Comment),
+      };
+
+      const post = decode(Post, fixturePayload);
+      const encodedPost = encode(post);
+
+      expect(encodedPost.comments.length).toBe(fixturePayload.comments.length);
+      expect(encodedPost.comments[0].id).toBe(fixturePayload.comments[0].id);
+
+      expect(encodedPost.comments[0].user.id).toBe(
+        fixturePayload.comments[0].user.id
+      );
+      expect(encodedPost.comments[0].user.username).toBe(
+        fixturePayload.comments[0].user.username
       );
     });
   });

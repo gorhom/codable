@@ -25,15 +25,12 @@ export const decodeCodable = <T extends BaseCodable>(
   if (isRoot === false && isEmpty(json) === true) {
     throw errors.missingValue(key || '', typeof type);
   }
-
   let result = new type(json);
-
   // @ts-ignore
   if (json !== undefined && type.CodingProperties !== undefined) {
     // @ts-ignore
     Object.assign(result, decodePayload(json, type.CodingProperties));
   }
-
   return result;
 };
 
@@ -56,7 +53,6 @@ export const decodeProperty = (
   const jsonKey = get(codingProperty, 'key', key);
   const value = get(payload, jsonKey, undefined);
   const type: IType | ICodable = get(codingProperty, 'type', codingProperty);
-
   return decodeValue(jsonKey, type, value);
 };
 
@@ -68,7 +64,6 @@ export const decodeValue = (
   if (isCodable(type)) {
     return decodeCodable(type, value, false, key);
   }
-
   const model: IModel = models[type.name](type);
   return model.validate(key, value) ? model.decode(key, value) : undefined;
 };
