@@ -88,6 +88,7 @@ const jsonPayload = {
 const user: User = decode(User, jsonPayload);
 
 // now encode it back 🙈
+// ⚠️ date encoding still in progress
 
 const userJson = encode(user)
 ```
