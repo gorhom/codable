@@ -19,6 +19,7 @@ export * from './models';
 export * from './utils/types';
 export * from './utils/typecheck';
 export * from './utils/decoder';
+export * from './utils/encoder';
 export * from './utils/errors';
 export * from './utils/isEmpty';
 export * from './utils/get';

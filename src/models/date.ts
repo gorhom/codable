@@ -19,7 +19,6 @@ export const date = (type: IType): IModel => {
     }
     return true;
   };
-
   const decode = (key: string, value: any) => {
     try {
       return type.parser!(value);
@@ -27,9 +26,10 @@ export const date = (type: IType): IModel => {
       throw errors.failToParse(key, value, error.message || error);
     }
   };
-
+  const encode = (key: string, value: any) => value;
   return {
     validate,
     decode,
+    encode,
   };
 };

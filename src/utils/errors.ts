@@ -11,4 +11,6 @@ export const errors = {
     `Missing date parser. key: '${key}', type: ${type}`,
   failToParse: (key: string, value: string, errorMessage: string) =>
     `Fail to parse date with custom parser. key: '${key}', value: '${value}', parser error: '${errorMessage}'`,
+  invalidCodable: () => `Invalid codable type.`,
+  missingCodingProperties: () => `Missing 'CodingProperties' static variable.`,
 };

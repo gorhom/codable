@@ -20,6 +20,7 @@ export interface IType {
 export interface IModel {
   validate: (key: string, value: any) => boolean;
   decode: (key: string, value: any) => any;
+  encode: (key: string, value: any) => any;
 }
 
 export type IModelDictionary = {
@@ -33,7 +34,7 @@ export interface IDictionary<T> {
 }
 
 export interface IBaseCodable {
-  toJSON: () => string;
+  CodingProperties: IDictionary<ICodingPropertyType>;
 }
 
 interface IBaseCodableStatic {

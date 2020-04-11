@@ -4,6 +4,7 @@ import {
   IModel,
   IType,
   decodeCodable,
+  encode as encodeCodable,
   errors,
 } from '../internal';
 
@@ -33,21 +34,34 @@ export const array = (type: IType): IModel => {
       value[0]
     );
   };
-
   const decode = (key: string, value: any[]) => {
     if (validate(key, value)) {
       const { subtype } = type;
       if (subtype !== undefined && isCodable(subtype)) {
-        return value.map(item => decodeCodable(subtype, item, false, key));
+        return value.map(item =>
+          decodeCodable({
+            type: subtype,
+            json: item,
+            isRoot: false,
+            key,
+          })
+        );
       }
       return value;
     } else {
       return undefined;
     }
   };
-
+  const encode = (key: string, value: any[]) => {
+    const { subtype } = type;
+    if (subtype !== undefined && isCodable(subtype)) {
+      return value.map(item => encodeCodable(item));
+    }
+    return value;
+  };
   return {
     validate,
     decode,
+    encode,
   };
 };
