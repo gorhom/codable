@@ -56,7 +56,6 @@ const encodeProperty = ({
     type,
     // @ts-ignore
     value: codable[key],
-    codable,
   });
 };
 
@@ -64,12 +63,10 @@ const encodeValue = ({
   key,
   type,
   value,
-  codable,
 }: {
   key: string;
   type: IType | ICodable;
   value?: object;
-  codable: BaseCodable;
 }) => {
   if (isCodable(type)) {
     return {

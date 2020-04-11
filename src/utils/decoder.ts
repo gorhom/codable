@@ -31,6 +31,7 @@ export const decodeCodable = <T extends BaseCodable>(
     // @ts-ignore
     Object.assign(result, decodePayload(json, type.CodingProperties));
   }
+  // @ts-ignore
   return result;
 };
 
